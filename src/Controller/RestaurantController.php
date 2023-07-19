@@ -129,9 +129,14 @@ class RestaurantController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_RESTAURATEUR")]
     #[Route('/{id}', name: 'app_restaurant_delete', methods: ['POST'])]
     public function delete(Request $request, Restaurant $restaurant, EntityManagerInterface $entityManager): Response
     {
+        if ($restaurant->getUser() != $this->getUser()) {
+            $this->redirectToRoute("app_home");
+        }
+
         if ($this->isCsrfTokenValid('delete' . $restaurant->getId(), $request->request->get('_token'))) {
             foreach ($restaurant->getRestaurantPictures() as $pictures) {
                 $this->upload->remove($pictures->getFile());
@@ -141,7 +146,7 @@ class RestaurantController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_restaurant_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_restaurant_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 
     private function uploadFile(Restaurant $restaurant, $file, EntityManagerInterface $entityManager)
