@@ -4,5 +4,9 @@
                         </div>
   <div class="card-body">
     <p class="card-text"> {{ avis.message }}</p>
+
+    {% if avis.restaurant.user == app.user %}
+    <button class="btn btn-primary"> Répondre </button> <button class="btn btn-danger"> Supprimer </button>
+    {% endif %}
   </div>
 </div>

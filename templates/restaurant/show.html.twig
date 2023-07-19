@@ -9,6 +9,15 @@
             <li class="breadcrumb-item active" aria-current="page">{{ restaurant.name }}</li>
         </ol>
     </nav>
+
+    {% if restaurant.user == app.user %}
+    <div class="row my-2">
+        <div class="col-md-12 col-lg-12 py-3 px-3 rounded bg-info text-center text-white">
+
+        <i class="fa-solid fa-bell"></i> Vous êtes le propriétaire de ce restaurant
+        </div>
+    </div>
+    {% endif %}
     
     <div class="row">
 
