@@ -61,6 +61,15 @@ class RestaurantController extends AbstractController
     }
 
     #[IsGranted("ROLE_RESTAURATEUR")]
+    #[Route("/dashboard", name: 'app_restaurant_dashboard', methods: ['GET'])]
+    public function dashboard(): Response
+    {
+        return $this->render('restaurant/dashboard.html.twig', [
+            'restaurants' => $this->getUser()->getRestaurants()
+        ]);
+    }
+
+    #[IsGranted("ROLE_RESTAURATEUR")]
     #[Route('/new', name: 'app_restaurant_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
