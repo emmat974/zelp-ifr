@@ -1,0 +1,14 @@
+<h2> <i class="fa-solid fa-star"></i> {{ avis|average }} - {{ nbAvis }} Commentaire{% if nbAvis > 0 %}s {% endif %}</h2>
+
+{% for a in avis %}
+
+{% include "avis/_card.html.twig" with {avis: a} %}
+
+{% else %}
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    Aucun commentaire n'a été saisi.
+  </div>
+</div>
+
+{% endfor %}

@@ -1,0 +1,30 @@
+{% if app.user %}
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <form method="POST" action="{{ path('app_avis_create', {'id': restaurant.id}) }}">
+            {{ form_start(form) }}
+
+            <div class="form-group mb-3">
+                {{ form_label(form.rating) }}
+                {{ form_widget(form.rating, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group mb-3">
+                {{ form_label(form.message) }}
+                {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3 d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Soumettre</button>
+            </div>
+            {{ form_end(form) }}
+        </form>
+    </div>
+</div>
+
+{% else %}
+
+    <p>Veuillez vous connecter pour laisser un avis.</p>
+
+{% endif %}

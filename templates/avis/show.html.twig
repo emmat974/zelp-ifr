@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_restaurant_index') }}">Restaurant</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('app_restaurant_show', {id : avis.restaurant.id}) }}">{{ avis.restaurant }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Avis</li>
+        </ol>
+    </nav>
+
+    {% include "avis/_card.html.twig" with {avis: avis} %}
+{% endblock %}

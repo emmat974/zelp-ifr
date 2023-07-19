@@ -1,0 +1,9 @@
+{% set maxRating = 5 %}
+
+{% for i in 1..maxRating %}
+    {% if rating >= i %}
+        <i class="fa fa-star text-warning"></i>
+    {% else %}
+        <i class="fa-regular fa-star"></i>
+    {% endif %}
+{% endfor %}

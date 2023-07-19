@@ -1,0 +1,8 @@
+
+<div class="card border-primary mb-3">
+  <div class="card-header">{{ avis.user }} - {% include "utils/_stars.html.twig" with { rating: avis.rating } %}
+                        </div>
+  <div class="card-body">
+    <p class="card-text"> {{ avis.message }}</p>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AvisController!{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4 img-fluid" src="{{ asset('assets/img/undraw_just_saying.png') }}" alt="" width="25%"  >
+    <h1 class="display-5 fw-bold text-body-emphasis fs-3">Écrivez un avis, aidez les personnes à trouver le bon restaurants</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Les récits comme le vôtre permettent à tous de profitez un bon repas.</p>
+    </div>
+  </div>
+
+
+<div class="row my-2">
+    <div class="col-lg-12 col-md-12">
+    <h2 class="fs-4 my-2"> Vos avis</h2>
+
+        <table class="table table-hover">
+        <thead>
+            <tr>
+            <th scope="col">Établissement</th>
+            <th scope="col">Avis</th>
+            <th scope="col">Note</th>
+            </tr>
+        </thead>
+            <tbody>
+                {% for a in avis %}
+                <th scope="row"><a href="{{ path('app_restaurant_show', {id: a.restaurant.id }) }}"> {{ a.restaurant }} </a></th>
+                    <td><a href="{{ path('app_avis_show', {id: a.id}) }}"> {{ a.message }} </a></td>
+                    <td>
+                      {% set rating = a.rating %}
+                        {% set maxRating = 5 %}
+
+                        {% for i in 1..maxRating %}
+                            {% if rating >= i %}
+                                <i class="fa fa-star text-warning"></i>
+                            {% else %}
+                                <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% else %}
+                 <th scope="row">Vous n'avez laissé aucun avis pour le moment</th>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+{% endblock %}
