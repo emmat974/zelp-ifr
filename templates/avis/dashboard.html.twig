@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<div class="row">
+    <h1 class="fs-3"> Les avis sur vos restaurants </h1>
+</div>
+
+<div class="row">
+    {% for restaurant in restaurants %}
+        {% for avis in restaurant.avis %}
+            {% include "avis/_card.html.twig" with { avis: avis } %}
+        {% endfor %}
+    {% endfor %}
+</div>
+
+{% endblock %}
