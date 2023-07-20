@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_avis_remove', {'id': avis.id}) }}" onsubmit="return confirm('Cette action est irréversible, êtes-vous sûre ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avis.id) }}">
+    <button class="btn btn-danger"><i class="fa-solid fa-trash"></i> Supprimer</button>
+</form>

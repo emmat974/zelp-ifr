@@ -32,10 +32,12 @@ class AvisController extends AbstractController
         ]);
     }
 
+    #[IsGranted('IS_AUTHENTICATED')]
+    #[Route("/dashboard", name: "dashboard", methods: ["GET"])]
     public function avis(): Response
     {
-        return $this->render('avis/index.html.twig', [
-            'controller_name' => 'AvisController',
+        return $this->render('avis/dashboard.html.twig', [
+            "restaurants" => $this->getUser()->getRestaurants()
         ]);
     }
 
@@ -58,6 +60,7 @@ class AvisController extends AbstractController
 
         return null;
     }
+
 
     public function avisForm(Restaurant $restaurant): Response
     {
@@ -86,5 +89,22 @@ class AvisController extends AbstractController
         return $this->render("avis/show.html.twig", [
             "avis" => $avis
         ]);
+    }
+
+
+    #[IsGranted("ROLE_RESTAURATEUR")]
+    #[Route('/{id}', name: "remove", methods: ['POST'])]
+    public function delete(Request $request, Avis $avis, EntityManagerInterface $entityManager): Response
+    {
+        if ($avis->getRestaurant()->getUser() != $this->getUser()) {
+            $this->redirectToRoute("app_home");
+        }
+
+        if ($this->isCsrfTokenValid('delete' . $avis->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($avis);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_avis_dashboard', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -6,7 +6,7 @@
     <p class="card-text"> {{ avis.message }}</p>
 
     {% if avis.restaurant.user == app.user %}
-    <button class="btn btn-primary"> Répondre </button> <button class="btn btn-danger"> Supprimer </button>
+    <button class="btn btn-primary"> Répondre </button> {% include "avis/_delete_form.html.twig" with {avis:avis }%}
     {% endif %}
   </div>
 </div>
