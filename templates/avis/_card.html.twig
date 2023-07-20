@@ -1,4 +1,3 @@
-
 <div class="card border-primary mb-3">
   <div class="card-header">{{ avis.user }} - {% include "utils/_stars.html.twig" with { rating: avis.rating } %}
                         </div>
@@ -6,7 +5,22 @@
     <p class="card-text"> {{ avis.message }}</p>
 
     {% if avis.restaurant.user == app.user %}
-    <button class="btn btn-primary"> Répondre </button> {% include "avis/_delete_form.html.twig" with {avis:avis }%}
+    {% if avis.avis %}
+    Vous avez déjà repondu à cette avis !
+    {% else %}
+    <a class="btn btn-primary" href="{{ path('app_avis_reply', {id: avis.id})}}"> Répondre </a> 
+    {% endif %}
+    {% include "avis/_delete_form.html.twig" with {avis:avis }%}
+    {% endif %}
+
+    {% if avis.avis %}
+    <hr />
+    <div class="my-2">
+    <span class="fw-bold"> Le propriétaire à répondu </span>
+    <p class="my-2">
+        {{ avis.avis.message }}
+    </p>
+    </div>
     {% endif %}
   </div>
 </div>

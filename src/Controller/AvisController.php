@@ -61,6 +61,38 @@ class AvisController extends AbstractController
         return null;
     }
 
+    #[IsGranted("ROLE_RESTAURATEUR")]
+    #[Route("/reply/{id}", name: "reply", methods: ['GET', 'POST'])]
+    public function replyAvis(Avis $avis, Request $request): Response
+    {
+        if ($avis->getRestaurant()->getUser() != $this->getUser()) {
+            $this->redirectToRoute("app_home");
+        }
+
+        $newReply = new Avis();
+
+        $form = $this->createForm(AvisType::class, $newReply)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newReply->setUser($this->getUser())
+                ->setRestaurant($avis->getRestaurant())
+                ->setAvis($avis)
+                ->setRating(null);
+
+            $avis->setAvis($newReply);
+
+            $this->em->persist($newReply);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_avis_dashboard');
+        }
+
+        return $this->render("avis/reply_avis.html.twig", [
+            "avis" => $avis,
+            "form" => $form->createView()
+        ]);
+    }
+
 
     public function avisForm(Restaurant $restaurant): Response
     {

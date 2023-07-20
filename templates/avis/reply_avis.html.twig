@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-6 col-md-12">
+        <h1 class="fs-3"> Répondre à un avis </h1>
+    </div>
+</div>
+<div class="row">
+    {% include "avis/_card.html.twig" with {avis:avis} %}
+</div>
+    <hr />
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <form method="POST">
+            {{ form_start(form) }}
+            
+            <div class="form-group mb-3">
+                {{ form_label(form.message) }}
+                {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3 d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Soumettre</button>
+            </div>
+            {{ form_end(form) }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -17,7 +17,7 @@ class Avis
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $message = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $rating = null;
 
     #[ORM\ManyToOne(inversedBy: 'avis')]
@@ -28,7 +28,7 @@ class Avis
     #[ORM\JoinColumn(nullable: false)]
     private ?Restaurant $restaurant = null;
 
-    #[ORM\ManyToOne(targetEntity: self::class)]
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: "replies", cascade: ["remove"])]
     private ?self $avis = null;
 
     #[ORM\Column]
