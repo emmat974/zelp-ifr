@@ -27,7 +27,7 @@
             <tbody>
                 {% for a in avis %}
                 <th scope="row"><a href="{{ path('app_restaurant_show', {id: a.restaurant.id }) }}"> {{ a.restaurant }} </a></th>
-                    <td><a href="{{ path('app_avis_show', {id: a.id}) }}"> {{ a.message }} </a></td>
+                    <td><a href="{{ path('app_avis_show', {id: a.id}) }}"> {{ a.message|slice(0, 100) }}{% if a.message|length > 100 %}...{% endif %} </a></td>
                     <td>
                       {% set rating = a.rating %}
                         {% set maxRating = 5 %}
@@ -47,8 +47,14 @@
                 
             </tbody>
         </table>
+    </div>
 
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pagination">
+                {{ knp_pagination_render(avis) }}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -7,6 +7,7 @@ use App\Entity\Restaurant;
 use App\Form\AvisType;
 use App\Repository\AvisRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,10 +26,19 @@ class AvisController extends AbstractController
 
     #[IsGranted('IS_AUTHENTICATED')]
     #[Route("/", name: "index", methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+
+        $query = $this->getUser()->getAvis();
+
+        $pagination = $paginator->paginate(
+            $query, // Requête à paginer
+            $request->query->getInt('page', 1), // Numéro de page à afficher
+            10 // Nombre d'éléments par page
+        );
+
         return $this->render('avis/index.html.twig', [
-            'avis' => $this->getUser()->getAvis()
+            'avis' => $pagination
         ]);
     }
 
