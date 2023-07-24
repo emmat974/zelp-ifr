@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\RestaurantPictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 #[ORM\Entity(repositoryClass: RestaurantPictureRepository::class)]
 #[ORM\Table("restaurant_pictures")]
+#[Vich\Uploadable]
 class RestaurantPicture
 {
     #[ORM\Id]
@@ -22,6 +26,9 @@ class RestaurantPicture
 
     #[ORM\Column(length: 255)]
     private ?string $file = null;
+
+    #[Vich\UploadableField(mapping: 'pictures', fileNameProperty: 'file')]
+    private ?File $pictureFile = null;
 
     public function getId(): ?int
     {
@@ -62,5 +69,15 @@ class RestaurantPicture
         $this->file = $file;
 
         return $this;
+    }
+
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    public function setPictureFile(?File $pictureFile = null): void
+    {
+        $this->pictureFile = $pictureFile;
     }
 }

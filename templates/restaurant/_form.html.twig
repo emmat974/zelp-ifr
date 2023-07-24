@@ -1,4 +1,11 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_widget(form) }}
+
+{# {% for formPicture in form.restaurantPictures %}
+   {{ form_widget(formPicture) }}
+{% endfor %} #}
+
+<button class="btn">{{ button_label|default('Valider') }}</button>
+
 {{ form_end(form) }}

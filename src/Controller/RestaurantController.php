@@ -74,20 +74,20 @@ class RestaurantController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $restaurant = new Restaurant();
+        $restaurantPicture = new RestaurantPicture();
         $form = $this->createForm(RestaurantType::class, $restaurant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $restaurant->setUser($this->getUser());
+            // ->addRestaurantPicture($restaurantPicture);
             $entityManager->persist($restaurant);
 
-            $file = $form->get('images')->getData();
+            // $file = $form->get('images')->getData();
 
-            if ($file) {
-                $this->uploadFile($restaurant, $file, $entityManager);
-            }
+            // if ($file) {
+            //     $this->uploadFile($restaurant, $file, $entityManager);
+            // }
             $entityManager->flush();
 
             return $this->redirectToRoute('app_restaurant_index', [], Response::HTTP_SEE_OTHER);
