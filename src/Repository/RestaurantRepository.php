@@ -21,28 +21,56 @@ class RestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurant::class);
     }
 
-//    /**
-//     * @return Restaurant[] Returns an array of Restaurant objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findBestRestaurant(int $limit = 4): array
+    {
+        return $this
+            ->createQueryBuilder('r')
+            ->select('r')
+            ->leftJoin('r.avis', 'a')
+            ->groupBy('r.id')
+            ->orderBy('AVG(a.rating)', 'DESC')
+            ->setMaxResults(4) // Limiter le nombre de résultats à 4
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Restaurant
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function searchRestaurant(string $search = null)
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->select('r')
+            ->orderBy('r.createdAt', 'DESC');
+
+        if ($search) {
+            $qb->andWhere($qb->expr()->like('r.name', ':searchTerm'))
+                ->setParameter('searchTerm', '%' . $search . '%');
+        }
+
+        return $qb;
+    }
+
+    //    /**
+    //     * @return Restaurant[] Returns an array of Restaurant objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('r.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Restaurant
+    //    {
+    //        return $this->createQueryBuilder('r')
+    //            ->andWhere('r.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

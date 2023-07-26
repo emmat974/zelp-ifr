@@ -2,15 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Avis;
 use App\Entity\Restaurant;
 use App\Entity\RestaurantPicture;
-use App\Form\AvisType;
 use App\Form\RestaurantType;
-use App\Repository\AvisRepository;
 use App\Repository\RestaurantRepository;
 use App\Service\Upload;
-use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,9 +24,9 @@ class RestaurantController extends AbstractController
     }
 
     #[Route('/', name: 'app_restaurant_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $em, Request $request, PaginatorInterface $paginator): Response
+    public function index(EntityManagerInterface $em, Request $request, PaginatorInterface $paginator, RestaurantRepository $repository): Response
     {
-        $query = $this->getRestaurantSearchQuery($em, $request);
+        $query = $repository->searchRestaurant($request->query->get('search'));
 
         $paginator = $paginator->paginate(
             $query,
@@ -41,23 +37,6 @@ class RestaurantController extends AbstractController
         return $this->render('restaurant/index.html.twig', [
             'restaurants' => $paginator,
         ]);
-    }
-
-    private function getRestaurantSearchQuery(EntityManagerInterface $em, Request $request)
-    {
-        $searchTerm = $request->query->get('search');
-        $qb = $em->createQueryBuilder();
-
-        $qb->select('r')
-            ->from(Restaurant::class, 'r')
-            ->orderBy('r.createdAt', 'DESC');
-
-        if ($searchTerm) {
-            $qb->andWhere($qb->expr()->like('r.name', ':searchTerm'))
-                ->setParameter('searchTerm', '%' . $searchTerm . '%');
-        }
-
-        return $qb;
     }
 
     #[IsGranted("ROLE_RESTAURATEUR")]
