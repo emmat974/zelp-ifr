@@ -3,23 +3,79 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>M'inscrire</h1>
+ <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>M'inscrire</h1>
 
-    {{ form_errors(registrationForm) }}
+            {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
-        {{ form_row(registrationForm.firstname, {
-            label: 'Nom'
-        }) }}
-        {{ form_row(registrationForm.lastname, {
-            label: 'Prénom'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+            {{ form_start(registrationForm) }}
+                <div class="form-group">
+                    {{ form_label(registrationForm.email, 'Adresse email', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.firstname, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.firstname, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.lastname, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.lastname, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.ville, 'Ville', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.ville, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <hr />
+
+                <div class="form-group">
+                    <label class="form-label">Rôles</label>
+                    <div class="d-flex align-items-center">
+                        <div class="form-check">
+                            <span class="mr-2">
+                                <i class="fa-solid fa-user-check"></i>
+                            </span>
+                            {{ form_widget(registrationForm.roles[0], {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_label(registrationForm.roles[0], 'Client', {'label_attr': {'class': 'form-check-label'}}) }}
+                        </div>
+                        <div class="form-check">
+                            <span class="mr-2">
+                                <i class="fa-solid fa-utensils"></i>
+                            </span>
+                            {{ form_widget(registrationForm.roles[1], {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_label(registrationForm.roles[1], 'Restaurateur', {'label_attr': {'class': 'form-check-label'}}) }}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group my-2">
+                    <div class="form-check">
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_label(registrationForm.agreeTerms, 'Accepter les termes', {'label_attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group my-3 text-center">
+                    <button type="submit" class="btn btn-primary">M'inscrire</button>
+                </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+</div>
 {% endblock %}

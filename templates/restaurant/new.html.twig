@@ -3,9 +3,9 @@
 {% block title %}New Restaurant{% endblock %}
 
 {% block body %}
-    <h1>Create new Restaurant</h1>
+    <h1>Ajouter un nouveau restaurant</h1>
 
     {{ include('restaurant/_form.html.twig') }}
 
-    <a href="{{ path('app_restaurant_index') }}">back to list</a>
+    <a href="{{ path('app_restaurant_dashboard') }}">back to list</a>
 {% endblock %}

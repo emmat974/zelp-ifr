@@ -1,11 +1,39 @@
-{{ form_start(form) }}
+   <div class="row justify-content-center">
+      <div class="col-md-12">
+         {{ form_start(form) }}
+         
+         <div class="form-group">
+               {{ form_label(form.name, 'Nom du restaurant', {'label_attr': {'class': 'form-label'}}) }}
+               {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+         </div>
 
-{{ form_widget(form) }}
+            <div class="form-group">
+                {{ form_label(form.description, 'Description du restaurant', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 8}}) }}
+            </div>
 
-{# {% for formPicture in form.restaurantPictures %}
-   {{ form_widget(formPicture) }}
-{% endfor %} #}
 
-<button class="btn">{{ button_label|default('Valider') }}</button>
+         <div class="form-group">
+               {{ form_label(form.ville, 'Ville du restaurant', {'label_attr': {'class': 'form-label'}}) }}
+               {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+         </div>
 
-{{ form_end(form) }}
+         <div class="form-group">
+               <h4>Photos du restaurant</h4>
+               <ul class="list-unstyled" id="restaurantPictures">
+                  {% for pictureForm in form.restaurantPictures %}
+                     <li>
+                           {{ form_row(pictureForm.file) }}
+                           {{ form_row(pictureForm._delete) }}
+                     </li>
+                  {% endfor %}
+               </ul>
+               <button type="button" class="btn btn-primary" id="add_picture">Ajouter une photo</button>
+         </div>
+
+         <div class="form-group my-3">
+            <button type="submit" class="btn btn-primary">Valider</button>
+         </div>
+         {{ form_end(form) }}
+      </div>
+   </div>
